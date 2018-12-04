@@ -2,41 +2,45 @@
 #11/21/18
 #Integrals Using LRAM, RRAM, MRAM
 
-from math import sin, cos, tan, acos, asin, atan
-from math import exp, e, pi
-from math import log, log10, sqrt, log2
+from math import sin, cos,tan,acos,asin,atan
+from math import exp,e,pi
+from math import log,log10,sqrt,log2
 
-func = input("Enter function: ")
-a = float(input("Enter a lower bound: "))
-b = float(input("Enter a upper bound: "))
-n = int(input("Enter a whole number of boxes: "))
-Width = (b-a)/n
+a=float(input("start of range"))
+b=float(input("end of range"))
+n=int(input("number of rectangles"))
+func=input("Input desired function into syntax")
 
-LRAM = 0
-xValue =  a
-while xValue < b:
-    x = xValue
-    y = eval(func)
-    LRAM += y*Width
-    xValue += Width
-print("LRAM: ",LRAM)
+xvals=[]
+yvals=[]
 
-RRAM = 0
-xValue =  a
-while xValue < b:
-    x = xValue+Width
-    y = eval(func)
-    RRAM += y*Width
-    xValue += Width
-print("RRAM: ",RRAM)
+w=((b-a)/n)
 
-MRAM = 0
-xValue =  a
-while xValue < b:
-    x = xValue+Width/2
-    y = eval(func)
-    MRAM += y*Width
-    xValue += Width
-print("MRAM: ",MRAM)
+mX=[]
+mY=[]
+AS=0
 
+for i in range (0,n+1):
+    xvals.append(a+i*w)
+    x=xvals[i]
+    yvals.append(eval(func))
+    
+for i in range (0,n):
+    mX.append(a+i*w+w/2)
+    x=mX[i]
+    mY.append(eval(func))
+
+for i in range (0,n-1):
+    AS=AS+(yvals[i]+4*mY[i]+yvals[i+1])*(w/6)
+
+LRAM=(sum(yvals)-yvals[-1])*w
+RRAM=(sum(yvals)-yvals[0])*w
+MRAM=(sum(mY))*w
+TrapA=(LRAM+RRAM)/2
+
+print('LRAM is: ',LRAM)
+print('RRAM is: ',RRAM)
+print('MRAM is: ', MRAM)
+print('TrapA is: ', TrapA)
+print('AS is: ', AS)
 
